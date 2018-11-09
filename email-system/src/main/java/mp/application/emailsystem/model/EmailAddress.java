@@ -2,7 +2,8 @@ package mp.application.emailsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
-//import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -17,14 +18,14 @@ public class EmailAddress extends AuditModel {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
     private Long id;
 
-	@Column(name = "emailAddress", unique = true, nullable = false, length = 254)
+	@NotNull
+    @Size(max = 100)
     private String emailAddress;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "citizens_id", nullable = false)
+    @JoinColumn(name = "citizens_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Citizen citizen;

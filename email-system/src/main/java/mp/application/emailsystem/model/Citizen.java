@@ -3,6 +3,8 @@ package mp.application.emailsystem.model;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "citizens")
@@ -15,18 +17,16 @@ public class Citizen extends AuditModel {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
     private Long id;
 
-	@Column(name = "firstname", unique = false, nullable = false, length = 100)
+	@NotNull
+    @Size(max = 100)
     private String firstname;
 
-	@Column(name = "surname", unique = false, nullable = false, length = 100)
+	@NotNull
+    @Size(max = 100)
     private String surname;
 
-	@OneToMany(cascade=CascadeType.ALL)
-    @JoinColumn(name="citizens_id")
-    private Set <EmailAddress> emailaddresses;
 	
 	public Citizen() {
     }
@@ -60,14 +60,14 @@ public class Citizen extends AuditModel {
         this.surname = surname;
     }
     
-    public Set<EmailAddress> getEmails() {
+/*    public Set<EmailAddress> getEmails() {
 		return emailaddresses;   	    	
     }
 
     public void setEmails(Set<EmailAddress> emailAddresses) {
     	this.emailaddresses = emailAddresses;
     }
-    
+*/    
     @Override
     public String toString() {
         return "Citizen " + id.toString() + " = (Name= " + firstname + ", Surname= " + surname + ")";

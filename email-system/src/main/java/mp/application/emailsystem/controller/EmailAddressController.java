@@ -24,9 +24,7 @@ public class EmailAddressController {
     
     /**
      * 
-     * @param citizenId
-     * @param pageable
-     * @return
+     * @return Retrieving email addresses using citizen ID as a key
      */
     @GetMapping("/citizens/{citizenId}/emailaddresses")
     public Page<EmailAddress> getAllEmailAddressesByCitizenId(@PathVariable (value = "citizenId") Long citizenId,
@@ -37,9 +35,7 @@ public class EmailAddressController {
     
     /**
      * 
-     * @param citizenId
-     * @param emailAddress
-     * @return
+     * @return Adding list of email addresses using citizen ID
      */
     @PostMapping("/citizens/{citizenId}/emailaddresses")
     public EmailAddress createEmailAddress(@PathVariable (value = "CitizenId") Long citizenId,
@@ -53,10 +49,7 @@ public class EmailAddressController {
     
     /**
      * 
-     * @param citizenId
-     * @param emailAddressId
-     * @param emailAddressRequest
-     * @return
+     * @return Updating list of email addresses using citizen ID checking if given address already exists
      */
     @PutMapping("/citizens/{citizenId}/emailaddresses/{emailAddressId}")
     public EmailAddress updateEmailAddress(@PathVariable (value = "citizenId") Long citizenId,
@@ -75,9 +68,7 @@ public class EmailAddressController {
     
     /**
      * 
-     * @param citizenId
-     * @param emailAddressId
-     * @return
+     * @return Deleting given address first 
      */
     @DeleteMapping("/citizens/{citizenId}/emailaddresses/{emailAddressId}")
     public ResponseEntity<?> deleteEmailAddress(@PathVariable (value = "citizenId") Long citizenId,
