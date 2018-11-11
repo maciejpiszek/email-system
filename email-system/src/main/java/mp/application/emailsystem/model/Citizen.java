@@ -1,5 +1,6 @@
 package mp.application.emailsystem.model;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -26,6 +27,9 @@ public class Citizen extends AuditModel {
 	@NotNull
     @Size(max = 100)
     private String surname;
+	
+	@OneToMany
+	List<EmailAddress> emailAddresses;
 
 	
 	public Citizen() {

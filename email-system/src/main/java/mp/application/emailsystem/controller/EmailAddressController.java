@@ -1,5 +1,8 @@
 package mp.application.emailsystem.controller;
 
+
+import mp.application.emailsystem.dto.EmailAddressDTO;
+import mp.application.emailsystem.dto.EmailAddressMapper;
 import mp.application.emailsystem.exception.ResourceNotFoundException;
 import mp.application.emailsystem.model.EmailAddress;
 import mp.application.emailsystem.repository.EmailAddressRepository;
@@ -21,9 +24,8 @@ public class EmailAddressController {
     @Autowired
     private CitizenRepository citizenRepository;
     
-    
+
     /**
-     * 
      * @return Retrieving email addresses using citizen ID as a key
      */
     @GetMapping("/citizens/{citizenId}/emailaddresses")
@@ -34,11 +36,10 @@ public class EmailAddressController {
     
     
     /**
-     * 
      * @return Adding list of email addresses using citizen ID
      */
     @PostMapping("/citizens/{citizenId}/emailaddresses")
-    public EmailAddress createEmailAddress(@PathVariable (value = "CitizenId") Long citizenId,
+    public EmailAddress createEmailAddress(@PathVariable (value = "citizenId") Long citizenId,
                                  		  @Valid @RequestBody EmailAddress emailAddress) {
         return citizenRepository.findById(citizenId).map(citizen -> {
             emailAddress.setCitizen(citizen);
@@ -48,7 +49,6 @@ public class EmailAddressController {
     
     
     /**
-     * 
      * @return Updating list of email addresses using citizen ID checking if given address already exists
      */
     @PutMapping("/citizens/{citizenId}/emailaddresses/{emailAddressId}")
@@ -67,7 +67,6 @@ public class EmailAddressController {
     
     
     /**
-     * 
      * @return Deleting given address first 
      */
     @DeleteMapping("/citizens/{citizenId}/emailaddresses/{emailAddressId}")

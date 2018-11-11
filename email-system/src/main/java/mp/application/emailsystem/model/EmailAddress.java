@@ -30,6 +30,7 @@ public class EmailAddress extends AuditModel {
     @JsonIgnore
     private Citizen citizen;
 
+    
     public EmailAddress() {
     }
 
