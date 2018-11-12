@@ -2,10 +2,7 @@ package mp.application.emailsystem.dto;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.data.domain.Page;
-
-import mp.application.emailsystem.model.Citizen;
 import mp.application.emailsystem.model.EmailAddress;
 
 public class EmailAddressMapper {

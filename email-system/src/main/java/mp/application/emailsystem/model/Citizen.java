@@ -1,7 +1,6 @@
 package mp.application.emailsystem.model;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,7 +27,7 @@ public class Citizen extends AuditModel {
     @Size(max = 100)
     private String surname;
 	
-	@OneToMany
+	@OneToMany(mappedBy="citizen", targetEntity=EmailAddress.class)
 	List<EmailAddress> emailAddresses;
 
 	
@@ -64,14 +63,14 @@ public class Citizen extends AuditModel {
         this.surname = surname;
     }
     
-/*    public Set<EmailAddress> getEmails() {
-		return emailaddresses;   	    	
+    public List<EmailAddress> getEmailAddresses() {
+		return emailAddresses;   	    	
     }
 
-    public void setEmails(Set<EmailAddress> emailAddresses) {
-    	this.emailaddresses = emailAddresses;
+    public void setEmailAddresses(List<EmailAddress> emailAddresses) {
+    	this.emailAddresses = emailAddresses;
     }
-*/    
+   
     @Override
     public String toString() {
         return "Citizen " + id.toString() + " = (Name= " + firstname + ", Surname= " + surname + ")";

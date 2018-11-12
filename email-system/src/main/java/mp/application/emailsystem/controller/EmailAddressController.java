@@ -1,8 +1,5 @@
 package mp.application.emailsystem.controller;
 
-
-import mp.application.emailsystem.dto.EmailAddressDTO;
-import mp.application.emailsystem.dto.EmailAddressMapper;
 import mp.application.emailsystem.exception.ResourceNotFoundException;
 import mp.application.emailsystem.model.EmailAddress;
 import mp.application.emailsystem.repository.EmailAddressRepository;
@@ -12,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import javax.validation.Valid;
 
@@ -24,7 +22,7 @@ public class EmailAddressController {
     @Autowired
     private CitizenRepository citizenRepository;
     
-
+    
     /**
      * @return Retrieving email addresses using citizen ID as a key
      */
@@ -36,7 +34,7 @@ public class EmailAddressController {
     
     
     /**
-     * @return Adding list of email addresses using citizen ID
+     * @return Adding email address using citizen ID
      */
     @PostMapping("/citizens/{citizenId}/emailaddresses")
     public EmailAddress createEmailAddress(@PathVariable (value = "citizenId") Long citizenId,
@@ -67,7 +65,7 @@ public class EmailAddressController {
     
     
     /**
-     * @return Deleting given address first 
+     * @return Deleting given address checking if given address already exists
      */
     @DeleteMapping("/citizens/{citizenId}/emailaddresses/{emailAddressId}")
     public ResponseEntity<?> deleteEmailAddress(@PathVariable (value = "citizenId") Long citizenId,

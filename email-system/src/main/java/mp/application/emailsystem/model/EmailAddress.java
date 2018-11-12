@@ -4,9 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 @Entity
 @Table(name = "emailaddresses")
 public class EmailAddress extends AuditModel {
@@ -26,7 +23,6 @@ public class EmailAddress extends AuditModel {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "citizens_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Citizen citizen;
 
