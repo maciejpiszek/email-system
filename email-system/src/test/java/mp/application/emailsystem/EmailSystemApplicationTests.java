@@ -40,12 +40,18 @@ import mp.application.emailsystem.repository.CitizenRepository;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 public class EmailSystemApplicationTests {
-	
-	
+
 	/**
-	 * RUNS WITH FLYWAY V2 SCRPIT
+	 * 
+	 * 
+	 * RUN WITH FLYWAY DISABLE
+	 * 
+	 * 
 	 */
 
+	
+	
+	
 	@Mock
 	private CitizenRepository citizenRepository;
 
@@ -60,12 +66,17 @@ public class EmailSystemApplicationTests {
 
 	@LocalServerPort
 	int serverPort;
-	
-	Citizen citizen = new Citizen("TEST", "TEST");
 
 	@BeforeAll
 	public void setUpBeforeClass() throws Exception {
 
+		Citizen citizen = new Citizen("TEST1", "TEST1");
+		EmailAddress emailAddress = new EmailAddress("test@test.pl");
+		mockMvc.perform(post("/citizens").contentType(MediaType.APPLICATION_JSON).content(asJsonString(citizen)))
+				.andExpect(status().isOk());
+		mockMvc.perform(post("/citizens/1/emailaddresses").contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(emailAddress))).andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 	}
 
 	@BeforeEach
@@ -80,35 +91,37 @@ public class EmailSystemApplicationTests {
 	/**
 	 * Verifying GET request succeed
 	 */
-	
-	  @Test public void testGetCitizensRestTemplate() throws URISyntaxException {
-	  
-	  final String baseURI = "http://localhost:" + serverPort + "/citizens"; URI
-	  uri = new URI(baseURI); ResponseEntity<String> result =
-	  testRestTemplate.getForEntity(uri, String.class);
-	  
-	  Assert.assertEquals(200, result.getStatusCodeValue());
-	  
-	  }
-	
+
+	@Test
+	public void testGetCitizensRestTemplate() throws URISyntaxException {
+
+		final String baseURI = "http://localhost:" + serverPort + "/citizens";
+		URI uri = new URI(baseURI);
+		ResponseEntity<String> result = testRestTemplate.getForEntity(uri, String.class);
+
+		Assert.assertEquals(200, result.getStatusCodeValue());
+
+	}
+
 	/**
 	 * Verifying GET request succeed
 	 */
 	@Test
 	public void testGetCitizens() throws Exception {
 
-		mockMvc.perform(get("/citizens")).andExpect(status().isOk())
+		mockMvc.perform(get("/citizens"))
+				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 	}
 
 	/**
 	 * Verifying GET request succeed
-	 * Operating on citizen ID no 1 - given in Flyway script
 	 */
 	@Test
 	public void tesGetCitizen() throws Exception {
 
-		mockMvc.perform(get("/citizens/1")).andExpect(status().isOk()) 
+		mockMvc.perform(get("/citizens/1"))
+				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 	}
 
@@ -118,33 +131,58 @@ public class EmailSystemApplicationTests {
 	@Test
 	public void testCreateCitizen() throws Exception {
 
-		
-		Citizen citizen = new Citizen("TEST", "TEST");
-		mockMvc.perform(post("/citizens").contentType(MediaType.APPLICATION_JSON).content(asJsonString(citizen)))
+		Citizen citizen = new Citizen("TEST2", "TEST2");
+		mockMvc.perform(post("/citizens")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(citizen)))
 				.andExpect(status().isOk());
-		
+
 	}
 
 	/**
-	 * Verifying PUT request succeed
-	 * Operating on citizen ID no 2 - given in Flyway script
+	 * Verifying PUT request succeed on Citizens
 	 */
 	@Test
 	public void testUpdateCitizen() throws Exception {
 
 		Citizen citizen = new Citizen("DASTARDLEY", "KOWALSKI");
-		mockMvc.perform(put("/citizens/2")
-				.contentType(MediaType.APPLICATION_JSON).content(asJsonString(citizen))).andExpect(status().isOk());
+		mockMvc.perform(put("/citizens/1").contentType(MediaType.APPLICATION_JSON).content(asJsonString(citizen)))
+				.andExpect(status().isOk());
 	}
-	
+
+	/**
+	 * Verifying GET request on Email Addresses
+	 */
 	@Test
 	public void testGetEmailAddresses() throws Exception {
 
-		mockMvc.perform(get("/citizens/3/emailaddresses")).andExpect(status().isOk())
+		mockMvc.perform(get("/citizens/1/emailaddresses")).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 	}
 
-	
+	/**
+	 * Verifying POST request on Email Addresses
+	 */
+	@Test
+	public void testPutEmailAddresses() throws Exception {
+
+		EmailAddress emailAddress = new EmailAddress("test2@test2.pl");
+		mockMvc.perform(post("/citizens/1/emailaddresses").contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(emailAddress))).andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+	}
+
+	/**
+	 * Verifying PUT request succeed on Citizens
+	 */
+	@Test
+	public void testUpdateEmailAddresses() throws Exception {
+
+		EmailAddress emailAddress = new EmailAddress("test3@test3.pl");
+		mockMvc.perform(put("/citizens/1/emailaddresses/1").contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(emailAddress))).andExpect(status().isOk());
+	}
+
 	@Test
 	public void testCitizenMapper() {
 
@@ -177,10 +215,50 @@ public class EmailSystemApplicationTests {
 		emailAddress.setCreatedAt(now1);
 		emailAddress.setUpdatedAt(now2);
 		EmailAddressDTO emailAddressDTO = EmailAddressMapper.mapping(emailAddress);
+		
 		assertTrue(emailAddress.getId().equals(emailAddressDTO.getId()));
 		assertTrue(emailAddress.getEmailAddress().equals(emailAddressDTO.getEmailAddress()));
 		assertTrue(emailAddress.getCreatedAt().equals(emailAddressDTO.getCreatedAt()));
 		assertTrue(emailAddress.getUpdatedAt().equals(emailAddressDTO.getUpdatedAt()));
+	}
+	
+	@Test
+	public void testCitizenMapperBackwards() {
+
+		LocalDateTime now1 = LocalDateTime.now();
+		LocalDateTime now2 = LocalDateTime.now();
+		CitizenDTO citizenDTO = new CitizenDTO();
+		citizenDTO.setFirstname("TestJanusz");
+		citizenDTO.setSurname("TestKowalski");
+		citizenDTO.setId(123456L);
+		citizenDTO.setCreatedAt(now1);
+		citizenDTO.setUpdatedAt(now2);
+		Citizen citizen = CitizenMapper.mapping(citizenDTO);
+
+		assertTrue(citizenDTO.getFirstname().equals(citizen.getFirstname()));
+		assertTrue(citizenDTO.getSurname().equals(citizen.getSurname()));
+		assertTrue(citizenDTO.getId().equals(citizen.getId()));
+		assertTrue(citizenDTO.getCreatedAt().equals(citizen.getCreatedAt()));
+		assertTrue(citizenDTO.getUpdatedAt().equals(citizen.getUpdatedAt()));
+
+	}
+
+	@Test
+	public void testEmailAddressMapperBackwards() {
+
+		LocalDateTime now1 = LocalDateTime.now();
+		LocalDateTime now2 = LocalDateTime.now();
+		EmailAddressDTO emailAddressDTO = new EmailAddressDTO();
+		emailAddressDTO.setId(123456L);
+		emailAddressDTO.setEmailAddress("test@test.pl");
+		emailAddressDTO.setCreatedAt(now1);
+		emailAddressDTO.setUpdatedAt(now2);
+		EmailAddress emailAddress = EmailAddressMapper.mapping(emailAddressDTO);
+		
+		assertTrue(emailAddressDTO.getId().equals(emailAddress.getId()));
+		assertTrue(emailAddressDTO.getEmailAddress().equals(emailAddress.getEmailAddress()));
+		assertTrue(emailAddressDTO.getCreatedAt().equals(emailAddress.getCreatedAt()));
+		assertTrue(emailAddressDTO.getUpdatedAt().equals(emailAddress.getUpdatedAt()));
 	}
 
 	public static String asJsonString(final Object obj) {

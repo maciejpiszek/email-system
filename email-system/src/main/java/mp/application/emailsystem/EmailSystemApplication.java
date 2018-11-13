@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 public class EmailSystemApplication {
 
 	/**
-	 * FIRST BUILD WITH FLYWAY DISABLED TO BUILD DATABASE WITH HIBERNATE THEN ENABLE
+	 * FIRST BUILD WITH FLYWAY DISABLED TO BUILD DATABASE WITH HIBERNATE THEN OPTIONALLY ENABLE
 	 * FLYWAY TO LOAD SCRIPTS
 	 *
 	 */
