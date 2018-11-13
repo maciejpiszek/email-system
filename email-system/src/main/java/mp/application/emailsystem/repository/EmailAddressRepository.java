@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EmailAddressRepository extends JpaRepository<EmailAddress, Long> {
-    Page<EmailAddress> findByCitizenId(Long citizenId, Pageable pageable);
+	Page<EmailAddress> findByCitizenId(Long citizenId, Pageable pageable);
 }

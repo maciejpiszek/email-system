@@ -5,6 +5,8 @@ import mp.application.emailsystem.dto.CitizenMapper;
 import mp.application.emailsystem.exception.ResourceNotFoundException;
 import mp.application.emailsystem.model.Citizen;
 import mp.application.emailsystem.repository.CitizenRepository;
+import mp.application.emailsystem.repository.EmailAddressRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +22,9 @@ public class CitizenController {
 
 	@Autowired
 	CitizenRepository citizenRepository;
+
+	@Autowired
+	EmailAddressRepository emailAddressRepository;
 
 	/**
 	 * 
@@ -55,7 +60,7 @@ public class CitizenController {
 	/**
 	 * 
 	 * @param citizenId
-	 * @return citizen data on given citizen id number
+	 * @return citizen data on citizen id number given as a parameter
 	 */
 	@GetMapping("/citizens/{citizenId}")
 	public CitizenDTO getCitizen(@PathVariable(value = "citizenId") Long citizenId) {
@@ -80,7 +85,7 @@ public class CitizenController {
 	 * 
 	 * @param citizenId
 	 * @param citizenRequest
-	 * @return updating citizen data on given citizen id
+	 * @return updating citizen data on citizen id number given as a parameter
 	 */
 	@PutMapping("/citizens/{citizenId}")
 	public Citizen updateCitizen(@PathVariable Long citizenId, @Valid @RequestBody CitizenDTO citizenDTORequest) {
@@ -99,7 +104,12 @@ public class CitizenController {
 	 * @return deleting citizen
 	 */
 	@DeleteMapping("/citizens/{citizenId}")
-	public ResponseEntity<?> deleteCitizen(@PathVariable Long citizenId) {
+	public ResponseEntity<?> deleteCitizen(Pageable pageable, @PathVariable Long citizenId) {
+		if (citizenRepository.existsById(citizenId)) {
+
+			emailAddressRepository.findByCitizenId(citizenId, pageable);
+			emailAddressRepository.deleteAll();
+		}
 		return citizenRepository.findById(citizenId).map(citizen -> {
 			citizenRepository.delete(citizen);
 			return ResponseEntity.ok().build();
