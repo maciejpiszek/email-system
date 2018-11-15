@@ -23,12 +23,12 @@ import mp.application.emailsystem.repository.CitizenRepository;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EmailSystemApplicationAfterTests {
+public class EmailSystemApplicationAfterTestsFlywayEnabled {
 
 	/**
 	 * 
 	 * 
-	 * RUN WITH FLYWAY DISABLE (ONCE)
+	 * RUN ONCE WITH FLYWAY ENABLED
 	 * 
 	 */
 
@@ -41,25 +41,22 @@ public class EmailSystemApplicationAfterTests {
 	@Autowired
 	private MockMvc mockMvc;
 
-	@LocalServerPort
-	int serverPort;
-
 	/**
 	 * Verifying DELETE EmailAddress request succeed
 	 */
 	@Test
 	public void aDeleteEmailAddress() throws Exception {
 
-		mockMvc.perform(delete("/citizens/1/emailaddresses/1")).andExpect(status().isOk());
+		mockMvc.perform(delete("/citizens/4/emailaddresses/3")).andExpect(status().isOk());
 	}
 
 	/**
-	 * Verifying DELETE EmailAddress request succeed
+	 * Verifying DELETE Citizen request succeed
 	 */
 	@Test
 	public void bDeleteCitizenAfterTests() throws Exception {
 
-		mockMvc.perform(delete("/citizens/1")).andExpect(status().isOk());
+		mockMvc.perform(delete("/citizens/4")).andExpect(status().isOk());
 	}
 
 }

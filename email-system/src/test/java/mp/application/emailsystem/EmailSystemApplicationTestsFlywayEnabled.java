@@ -36,12 +36,12 @@ import mp.application.emailsystem.repository.CitizenRepository;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class EmailSystemApplicationTests {
+public class EmailSystemApplicationTestsFlywayEnabled {
 
 	/**
 	 * 
 	 * 
-	 * RUN WITH FLYWAY DISABLE (MULTIPLE TIMES)
+	 * RUN WITH FLYWAY ENABLED
 	 * 
 	 * 
 	 */
@@ -102,7 +102,7 @@ public class EmailSystemApplicationTests {
 	public void testUpdateCitizen() throws Exception {
 
 		Citizen citizen = new Citizen("DASTARDLEY", "KOWALSKI");
-		mockMvc.perform(put("/citizens/1").contentType(MediaType.APPLICATION_JSON).content(asJsonString(citizen)))
+		mockMvc.perform(put("/citizens/4").contentType(MediaType.APPLICATION_JSON).content(asJsonString(citizen)))
 				.andExpect(status().isOk());
 	}
 
@@ -112,7 +112,7 @@ public class EmailSystemApplicationTests {
 	@Test
 	public void testGetEmailAddresses() throws Exception {
 
-		mockMvc.perform(get("/citizens/1/emailaddresses")).andExpect(status().isOk())
+		mockMvc.perform(get("/citizens/4/emailaddresses")).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 	}
 
@@ -123,7 +123,7 @@ public class EmailSystemApplicationTests {
 	public void testUpdateEmailAddresses() throws Exception {
 
 		EmailAddress emailAddress = new EmailAddress("test3@test3.pl");
-		mockMvc.perform(put("/citizens/1/emailaddresses/1").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(put("/citizens/4/emailaddresses/3").contentType(MediaType.APPLICATION_JSON)
 				.content(asJsonString(emailAddress))).andExpect(status().isOk());
 	}
 

@@ -27,12 +27,12 @@ import mp.application.emailsystem.repository.CitizenRepository;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EmailSystemApplicationBeforeTests {
+public class EmailSystemApplicationBeforeTestsFlywayEnabled {
 
 	/**
 	 * 
 	 * 
-	 * RUN WITH FLYWAY DISABLE (ONCE)
+	 * RUN ONCE WITH FLYWAY ENABLED
 	 * 
 	 */
 
@@ -66,7 +66,7 @@ public class EmailSystemApplicationBeforeTests {
 	public void setUpEmailBeforeTests() throws Exception {
 
 		EmailAddress emailAddress = new EmailAddress("test@test.pl");
-		mockMvc.perform(post("/citizens/1/emailaddresses").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/citizens/4/emailaddresses").contentType(MediaType.APPLICATION_JSON)
 				.content(asJsonString(emailAddress))).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 	}
