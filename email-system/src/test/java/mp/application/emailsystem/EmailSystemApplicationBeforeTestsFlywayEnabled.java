@@ -3,21 +3,23 @@ package mp.application.emailsystem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.mockito.Mock;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+
 import mp.application.emailsystem.controller.CitizenController;
 import mp.application.emailsystem.model.Citizen;
 import mp.application.emailsystem.model.EmailAddress;
@@ -44,9 +46,6 @@ public class EmailSystemApplicationBeforeTestsFlywayEnabled {
 
 	@Autowired
 	private MockMvc mockMvc;
-
-	@LocalServerPort
-	int serverPort;
 
 	/**
 	 * Verifying POST Citizen request succeed

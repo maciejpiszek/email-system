@@ -7,15 +7,15 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.mockito.Mock;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+
 import mp.application.emailsystem.controller.CitizenController;
 import mp.application.emailsystem.repository.CitizenRepository;
 
@@ -41,8 +41,6 @@ public class EmailSystemApplicationAfterTestsFlywayDisabled {
 	@Autowired
 	private MockMvc mockMvc;
 
-	@LocalServerPort
-	int serverPort;
 
 	/**
 	 * Verifying DELETE EmailAddress request succeed
