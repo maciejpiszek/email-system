@@ -45,7 +45,7 @@ public class EmailSystemApplicationAfterTestsFlywayEnabled {
 	@Test
 	public void aDeleteEmailAddress() throws Exception {
 
-		mockMvc.perform(delete("/citizens/4/emailaddresses/3")).andExpect(status().isOk());
+		mockMvc.perform(delete("/citizens/z/emailaddresses/3")).andExpect(status().isOk());
 	}
 
 	/**
