@@ -5,33 +5,33 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import mp.application.emailsystem.controller.CitizenController;
+
 import mp.application.emailsystem.dto.CitizenDTO;
 import mp.application.emailsystem.dto.CitizenMapper;
 import mp.application.emailsystem.dto.EmailAddressDTO;
 import mp.application.emailsystem.dto.EmailAddressMapper;
 import mp.application.emailsystem.model.Citizen;
 import mp.application.emailsystem.model.EmailAddress;
-import mp.application.emailsystem.repository.CitizenRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -45,12 +45,6 @@ public class EmailSystemApplicationTestsFlywayEnabled {
 	 * 
 	 * 
 	 */
-
-	@Mock
-	private CitizenRepository citizenRepository;
-
-	@InjectMocks
-	private CitizenController citizenController;
 
 	@Autowired
 	private TestRestTemplate testRestTemplate;
@@ -102,8 +96,9 @@ public class EmailSystemApplicationTestsFlywayEnabled {
 	public void testUpdateCitizen() throws Exception {
 
 		Citizen citizen = new Citizen("DASTARDLEY", "KOWALSKI");
-		mockMvc.perform(put("/citizens/4").contentType(MediaType.APPLICATION_JSON).content(asJsonString(citizen)))
-				.andExpect(status().isOk());
+		mockMvc.perform(put("/citizens/3").contentType(MediaType.APPLICATION_JSON).content(asJsonString(citizen)))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 	}
 
 	/**
@@ -112,7 +107,7 @@ public class EmailSystemApplicationTestsFlywayEnabled {
 	@Test
 	public void testGetEmailAddresses() throws Exception {
 
-		mockMvc.perform(get("/citizens/4/emailaddresses")).andExpect(status().isOk())
+		mockMvc.perform(get("/citizens/3/emailaddresses")).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 	}
 
@@ -123,8 +118,9 @@ public class EmailSystemApplicationTestsFlywayEnabled {
 	public void testUpdateEmailAddresses() throws Exception {
 
 		EmailAddress emailAddress = new EmailAddress("test3@test3.pl");
-		mockMvc.perform(put("/citizens/4/emailaddresses/3").contentType(MediaType.APPLICATION_JSON)
-				.content(asJsonString(emailAddress))).andExpect(status().isOk());
+		mockMvc.perform(put("/citizens/3/emailaddresses/2").contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(emailAddress))).andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));;
 	}
 
 	/**
